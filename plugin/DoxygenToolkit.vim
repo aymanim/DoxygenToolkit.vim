@@ -427,28 +427,23 @@ function! <SID>DoxygenAuthorFunc()
     let g:DoxygenToolkit_authorName = input("Enter name of the author (generally yours...) : ")
   endif
 
-  " Test versionString variable
-  if !exists("g:DoxygenToolkit_versionString")
-    let g:DoxygenToolkit_versionString = input("Enter version string : ")
-  endif
-
   " Get file name
   let l:fileName = expand('%:t')
 
   " Begin to write skeleton
   let l:insertionMode = s:StartDocumentationBlock()
   exec "normal ".l:insertionMode.s:interCommentTag.g:DoxygenToolkit_fileTag.l:fileName
-  exec "normal o".s:interCommentTag.g:DoxygenToolkit_briefTag_pre
-  mark d
   exec "normal o".s:interCommentTag.g:DoxygenToolkit_authorTag.g:DoxygenToolkit_authorName
-  exec "normal o".s:interCommentTag.g:DoxygenToolkit_versionTag.g:DoxygenToolkit_versionString
   let l:date = strftime("%Y-%m-%d")
   exec "normal o".s:interCommentTag.g:DoxygenToolkit_dateTag.l:date
+  exec "normal o".s:interCommentTag.g:DoxygenToolkit_briefTag_pre
+  mark d
+  exec "normal o\<enter>".s:interCommentTag.g:DoxygenToolkit_licenseTag
   if ( g:DoxygenToolkit_endCommentTag != "" )
     exec "normal o".s:endCommentTag
   endif
 
-  " Move the cursor to the rigth position
+  " Move the cursor to the right position
   exec "normal `d"
 
   call s:RestoreParameters()
